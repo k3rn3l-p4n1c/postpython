@@ -1,10 +1,11 @@
+import difflib
 import json
-
 import re
+from copy import copy
 
 import requests
 
-from extractors import extract_dict_from_raw_headers, extract_dict_from_raw_mode_data, format_dict
+from postpython.extractors import extract_dict_from_raw_headers, extract_dict_from_raw_mode_data, format_object
 
 
 class CaseInsensitiveDict(dict):
@@ -17,12 +18,12 @@ class CaseInsensitiveDict(dict):
     def update(self, d=None, **kwargs):
         d = d or {}
         for k, v in d.items():
-            self[k] = v
+            self[k.upper()] = v
 
 
 class PostPython:
     def __init__(self, postman_collection_file_path):
-        with open(postman_collection_file_path) as postman_collection_file:
+        with open(postman_collection_file_path, encoding='utf8') as postman_collection_file:
             self.__postman_collection = json.load(postman_collection_file)
 
         self.__folders = {}
@@ -48,7 +49,9 @@ class PostPython:
         if item in self.__folders:
             return self.__folders[item]
         else:
-            raise AttributeError('%s folder does not exist in Postman collection.' % item)
+            similar = difflib.get_close_matches(item, self.__folders)[0]
+            raise AttributeError('%s folder does not exist in Postman collection.\n'
+                                 'Did you mean %s?' % (item, similar))
 
     def help(self):
         print('Collection:')
@@ -65,7 +68,9 @@ class PostCollection:
         if item in self.__requests:
             return self.__requests[item]
         else:
-            raise AttributeError('%s request does not exist in %s folder.' % (item, self.name))
+            similar = difflib.get_close_matches(item, self.__requests.keys(), cutoff=0.0)[0]
+            raise AttributeError('%s request does not exist in %s folder.\n'
+                                 'Did you mean %s' % (item, self.name, similar))
 
     def help(self):
         print(self.name)
@@ -75,6 +80,7 @@ class PostCollection:
 
 class PostRequest:
     def __init__(self, post_python, data):
+        self.name = normalize_func_name(data['name'])
         self.post_python = post_python
         self.request_kwargs = dict()
         self.request_kwargs['url'] = data['url']
@@ -84,9 +90,9 @@ class PostRequest:
         self.request_kwargs['method'] = data['method']
 
     def __call__(self, *args, **kwargs):
-        formatted_kwargs = format_dict(self.request_kwargs, self.post_python.environments)
-        print(self.request_kwargs)
-        print(formatted_kwargs)
+        new_env = copy(self.post_python.environments)
+        new_env.update(kwargs)
+        formatted_kwargs = format_object(self.request_kwargs, new_env)
         return requests.request(**formatted_kwargs)
 
 

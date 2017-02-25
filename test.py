@@ -1,4 +1,4 @@
-from core import PostPython
+from postpython.core import PostPython
 
 pp = PostPython('../store/Bazinama.postman_collection.json')
 pp.environments.update({'BASE_URL': 'http://127.0.0.1:5000', 'PASSWORD': 'test', 'EMAIL': 'info@medrick.com'})
