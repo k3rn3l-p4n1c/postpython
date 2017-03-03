@@ -28,9 +28,9 @@ class PostPython:
 
         self.__folders = {}
         self.environments = CaseInsensitiveDict()
-        self.load()
+        self.__load()
 
-    def load(self):
+    def __load(self):
         id_to_request = {}
         for req in self.__postman_collection['requests']:
             id_to_request[req['id']] = req
