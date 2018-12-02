@@ -60,8 +60,9 @@ class PostPython:
                                      'Your choices are: %s' % (item, ", ".join(folders)))
 
     def help(self):
-        print('Collection:')
+        print("Possible methods:")
         for fol in self.__folders.values():
+            print()
             fol.help()
 
 
@@ -75,7 +76,7 @@ class PostCollection:
             return self.__requests[item]
         else:
             post_requests = list(self.__requests.keys())
-            similar_requests = difflib.get_close_matches(item, requests, cutoff=0.0)
+            similar_requests = difflib.get_close_matches(item, post_requests, cutoff=0.0)
             if len(similar_requests) > 0:
                 similar = similar_requests[0]
                 raise AttributeError('%s request does not exist in %s folder.\n'
@@ -85,9 +86,8 @@ class PostCollection:
                                      'Your choices are: %s' % (item, self.name, ", ".join(post_requests)))
 
     def help(self):
-        print(self.name)
         for req in self.__requests.keys():
-            print('\t', req)
+            print("post_python.{COLLECTION}.{REQUEST}()".format(COLLECTION=self.name, REQUEST=req))
 
 
 class PostRequest:
@@ -114,5 +114,5 @@ def normalize_class_name(string):
 
 
 def normalize_func_name(string):
-    string = re.sub(r'[!@#$%^&*()_\-+=,./\'\\\"|:;{}\[\]]', ' ', string)
+    string = re.sub(r'[?!@#$%^&*()_\-+=,./\'\\\"|:;{}\[\]]', ' ', string)
     return '_'.join(string.lower().split())

@@ -61,26 +61,23 @@ Did you mean get_request
 You can also use `help()` function to print all available requests.
 ```
 >>> runner.help()
-Collection:
-AuthOthers
-         hawk_auth
-         basic_auth
-         oauth1_0_verify_signature
-RequestMethods
-         get_request
-         put_request
-         delete_request
-         post_request
-         patch_request
+Posible requests:
+runner.AuthOthers.hawk_auth()
+runner.AuthOthers.basic_auth()
+runner.AuthOthers.oauth1_0_verify_signature()
+runner.RequestMethods.get_request()
+runner.RequestMethods.put_request()
+runner.RequestMethods.delete_request()
+runner.RequestMethods.post_request()
+runner.RequestMethods.patch_request()
 ...
 
 >>> runner.RequestMethods.help()
-RequestMethods
-         delete_request
-         patch_request
-         get_request
-         put_request
-         post_request
+runner.RequestMethods.delete_request()
+runner.RequestMethods.patch_request()
+runner.RequestMethods.get_request()
+runner.RequestMethods.put_request()
+runner.RequestMethods.post_request()
 
 ```
 
