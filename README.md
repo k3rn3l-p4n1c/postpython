@@ -30,7 +30,7 @@ runner = PostPython('/path/to/collection/Postman echo.postman_collection')
 ```
 Now you can call your request. Folders' name change to upper camel case and requests' name change to lowercase form.
 In this example the name of folder is "Request Methods" and it's change to `RequestMethods` and the name of request was
-"GET Request" and it's change to `get_request`.
+"GET Request" and it's change to `get_request`. So you should call a function like `runner.YourFolderName.you_request_name()`
 ```$python
 response = runner.RequestMethods.get_request()
 print(response.json())
