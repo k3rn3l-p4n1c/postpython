@@ -1,20 +1,21 @@
 # Postpython
-Postpython is a library for [Postman](https://www.getpostman.com/) that run postman's collections.
+Postpython is a library for [Postman](https://www.getpostman.com/) that run Postman's collections.
 If you are using postman, but collection runner is not flexible enough for you and postman codegen is too boring,
 Postpython is here for your continuous integration.
 
 ## Why use Postpython instead of postman codegen?
-- Postman codegen should be applied one by one for each request and it's boring when your api changes,
- but with postpython you don't need to generate code.
- Just export collection with postman and use it with Postpython.
-- In code generation you don't have environment feature any more and variables are hardcoded.
+- Postman codegen should be applied one by one for each request and it's boring when your API changes,
+ but with postpython, you don't need to generate code.
+ Just export collection with Postman and use it with Postpython.
+- In code generation, you don't have environment feature anymore and variables are hard coded.
 
 ## Why user Postpython instead of Postman collection runner?
-- With postpython you write your own script. But collection runner just tun all your requests one by one.
-So with Postpython you can design more complex test suites.
+- With postpython, you write your own script. But collection runner just turns all your requests one by one.
+So with Postpython, you can design more complex test suites.
 
 ## How to install?
-Postpython is available on [PyPI](https://pypi.python.org/pypi?name=postpython&version=0.1.2&:action=display) and you can install it using pip:
+Postpython is available on [PyPI](https://pypi.python.org/pypi?name=postpython&version=0.1.2&:action=display)
+ and you can install it using pip:
 ```
 $ pip install postpython
 ```
@@ -24,7 +25,7 @@ Import `PostPython`
 ```$python
 from postpython.core import PostPython
 ```
-Make an instance from `PostPython` and give address of postman collection file.
+Make an instance from `PostPython` and give the address of postman collection file.
 ```$python
 runner = PostPython('/path/to/collection/Postman echo.postman_collection')
 ```
@@ -44,8 +45,8 @@ runner.environments.update({'BASE_URL': 'http://127.0.0.1:5000'})
 runner.environments.update({'PASSWORD': 'test', 'EMAIL': 'you@email.com'})
 ```
 ### AttributeError
-Since `RequestMethods` and `get_request` does not really exists you intelligent IDE cannot help you.
-So Postpython try to correct you mistakes. If you spell a function or folder wrong it will suggest you the closest name.
+Since `RequestMethods` and `get_request` does not really exists your intelligent IDE cannot help you.
+So Postpython tries to correct your mistakes. If you spell a function or folder wrong it will suggest you the closest name.
 ```
 >>> response = runner.RequestMethods.get_requasts()
 
@@ -58,7 +59,7 @@ AttributeError: get_requasts request does not exist in RequestMethods folder.
 Did you mean get_request
 
 ```
-You can also use `help()` function to print all available requests.
+You can also use `help()` method to print all available requests.
 ```
 >>> runner.help()
 Collection:
@@ -86,4 +87,4 @@ RequestMethods
 
 ## Contribution
 Feel free to share your ideas or any problems in [issues](https://github.com/k3rn3l-p4n1c/postpython/issues).
-Contributions are welcomed. Give postpython a star to encourage me to continue its development.
+Contributions are welcomed. Give Postpython a star to encourage me to continue its development.
