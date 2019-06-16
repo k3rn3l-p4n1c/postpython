@@ -49,13 +49,20 @@ class PostPython:
         if item in self.__folders:
             return self.__folders[item]
         else:
-            similar = difflib.get_close_matches(item, self.__folders)[0]
-            raise AttributeError('%s folder does not exist in Postman collection.\n'
-                                 'Did you mean %s?' % (item, similar))
+            folders = list(self.__folders.keys())
+            similar_folders = difflib.get_close_matches(item, folders)
+            if len(similar_folders) > 0:
+                similar = similar_folders[0]
+                raise AttributeError('%s folder does not exist in Postman collection.\n'
+                                     'Did you mean %s?' % (item, similar))
+            else:
+                raise AttributeError('%s folder does not exist in Postman collection.\n'
+                                     'Your choices are: %s' % (item, ", ".join(folders)))
 
     def help(self):
-        print('Collection:')
+        print("Possible methods:")
         for fol in self.__folders.values():
+            print()
             fol.help()
 
 
@@ -68,14 +75,19 @@ class PostCollection:
         if item in self.__requests:
             return self.__requests[item]
         else:
-            similar = difflib.get_close_matches(item, self.__requests.keys(), cutoff=0.0)[0]
-            raise AttributeError('%s request does not exist in %s folder.\n'
-                                 'Did you mean %s' % (item, self.name, similar))
+            post_requests = list(self.__requests.keys())
+            similar_requests = difflib.get_close_matches(item, post_requests, cutoff=0.0)
+            if len(similar_requests) > 0:
+                similar = similar_requests[0]
+                raise AttributeError('%s request does not exist in %s folder.\n'
+                                     'Did you mean %s' % (item, self.name, similar))
+            else:
+                raise AttributeError('%s request does not exist in %s folder.\n'
+                                     'Your choices are: %s' % (item, self.name, ", ".join(post_requests)))
 
     def help(self):
-        print(self.name)
         for req in self.__requests.keys():
-            print('\t', req)
+            print("post_python.{COLLECTION}.{REQUEST}()".format(COLLECTION=self.name, REQUEST=req))
 
 
 class PostRequest:
@@ -97,10 +109,10 @@ class PostRequest:
 
 
 def normalize_class_name(string):
-    string = re.sub(r'[!@#$%^&*()_\-+=,./\'\\\"|:;{}\[\]]', ' ', string)
+    string = re.sub(r'[?!@#$%^&*()_\-+=,./\'\\\"|:;{}\[\]]', ' ', string)
     return string.title().replace(' ', '')
 
 
 def normalize_func_name(string):
-    string = re.sub(r'[!@#$%^&*()_\-+=,./\'\\\"|:;{}\[\]]', ' ', string)
+    string = re.sub(r'[?!@#$%^&*()_\-+=,./\'\\\"|:;{}\[\]]', ' ', string)
     return '_'.join(string.lower().split())

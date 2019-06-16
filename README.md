@@ -31,7 +31,7 @@ runner = PostPython('/path/to/collection/Postman echo.postman_collection')
 ```
 Now you can call your request. Folders' name change to upper camel case and requests' name change to lowercase form.
 In this example the name of folder is "Request Methods" and it's change to `RequestMethods` and the name of request was
-"GET Request" and it's change to `get_request`.
+"GET Request" and it's change to `get_request`. So you should call a function like `runner.YourFolderName.you_request_name()`
 ```$python
 response = runner.RequestMethods.get_request()
 print(response.json())
@@ -62,29 +62,26 @@ Did you mean get_request
 You can also use `help()` method to print all available requests.
 ```
 >>> runner.help()
-Collection:
-AuthOthers
-         hawk_auth
-         basic_auth
-         oauth1_0_verify_signature
-RequestMethods
-         get_request
-         put_request
-         delete_request
-         post_request
-         patch_request
+Posible requests:
+runner.AuthOthers.hawk_auth()
+runner.AuthOthers.basic_auth()
+runner.AuthOthers.oauth1_0_verify_signature()
+runner.RequestMethods.get_request()
+runner.RequestMethods.put_request()
+runner.RequestMethods.delete_request()
+runner.RequestMethods.post_request()
+runner.RequestMethods.patch_request()
 ...
 
 >>> runner.RequestMethods.help()
-RequestMethods
-         delete_request
-         patch_request
-         get_request
-         put_request
-         post_request
+runner.RequestMethods.delete_request()
+runner.RequestMethods.patch_request()
+runner.RequestMethods.get_request()
+runner.RequestMethods.put_request()
+runner.RequestMethods.post_request()
 
 ```
 
 ## Contribution
 Feel free to share your ideas or any problems in [issues](https://github.com/k3rn3l-p4n1c/postpython/issues).
-Contributions are welcomed. Give Postpython a star to encourage me to continue its development.
+Contributions are welcomed. Give postpython a star to encourage me to continue its development.
